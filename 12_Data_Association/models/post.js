@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 const postSchema = mongoose.Schema({
     postdata:String,
-    user:{  // store the id of user who created the post
+    user:{  // store the id of user who created the post.
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
     },   
