@@ -1,0 +1,25 @@
+Types of Databases
+1. SQL
+- These databases store data in the form of tables (rows and columns). 
+- Relationships between tables are created using keys.
+- Fixed schema
+- Ensures ACID properties (Atomicity, Consistency, Isolation, Durability).
+
+2. NoSQL
+- NoSQL stands for Not Only SQL.
+- Instead of tables, data can be stored as
+  1. Documents
+  2. Key-Value pairs
+  3. Graphs
+  4. Wide-column tables
+- These databases are designed for large-scale, flexible, and rapidly changing data.
+
+- Backend has 2 types of server one is application server and other is 
+Database Server. 
+- Application server means jo route ko handle krta hai and jo request ko 
+accept krta hai.
+
+      Code                Function
+mongoose.connect  ->  database is created
+model create      ->  collection is created
+CREATE            ->  document is created

@@ -1,0 +1,15 @@
+
+
+
+
+
+jwt 3 hisso se banta hai. 
+1. algorithm
+2. data   // sirf ye kaam ki chiz hai
+3. signature 
+
+https://www.jwt.io/
+
+jwt ki help se browser pe jo string aayi hai use ham dcrypt krke ham data 
+ko bahar nikal shakte hai
+

@@ -1,0 +1,7 @@
+1. Nodejs is neither a programming language nor a technology nor a framwork nor 
+   a library.Nodejs
+2. It's a javascript run time environment
+3. npm init -> package.json is created
+4. Documentation: https://nodejs.org/docs/latest/api/
+
+

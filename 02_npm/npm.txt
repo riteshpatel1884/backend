@@ -1,0 +1,25 @@
+Nodejs core me jo install ho kr aata hai usse module kehte hai.
+npm se install ho kr ja aata hai use package kehte hai
+
+
+To install any package -> npm install packageName
+To delete any package -> npm uninstall packageName
+To install a particular version of package -> npm install accessibility @3.0.9
+ 
+
+Dependencies: Packages and packages ki dependency
+devDependencies: Aise packages jo sirf development me kaam aayange. 
+Jab app deploy Ho jayega then we don't use these packages
+
+
+Why do we use sometime run and sometime without run in script command?
+Ex: npm start or npm test and npm run dev or npm run concurrent
+
+Ans: These script names have built-in shortcuts. They are equivalent to
+- npm run start
+- npm run test
+- npm run stop
+- npm run restart
+
+Later, developers started creating many custom scripts (dev, build, lint, etc.), so npm
+introduced the generic form: npm run <script-name>

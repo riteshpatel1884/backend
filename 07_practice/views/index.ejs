@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Tasks</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            font-family:'IBM Plex Mono', monospace;
+            background:#f8fafc;
+        }
+
+        .display{
+            font-family:'Space Grotesk', sans-serif;
+        }
+
+        ::placeholder{
+            color:#9ca3af;
+        }
+
+        .field{
+            background:#fff;
+            border:1px solid #d1d5db;
+            transition:.2s;
+        }
+
+        .field:focus{
+            outline:none;
+            border-color:#2563eb;
+            box-shadow:0 0 0 4px rgba(37,99,235,.12);
+        }
+
+        .task-card{
+            background:#fff;
+            border:1px solid #e5e7eb;
+            border-radius:18px;
+            box-shadow:0 10px 25px rgba(0,0,0,.06);
+            transition:.25s;
+        }
+
+        .task-card:hover{
+            transform:translateY(-6px);
+            box-shadow:0 20px 40px rgba(0,0,0,.12);
+        }
+
+        .submit-btn{
+            background:#111827;
+            color:white;
+            transition:.2s;
+        }
+
+        .submit-btn:hover{
+            background:#000;
+        }
+
+        .read-more{
+            color:#2563eb;
+            font-weight:600;
+        }
+
+        .read-more:hover{
+            text-decoration:underline;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="max-w-6xl mx-auto px-6 py-12">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 pb-6 mb-10">
+
+        <div>
+            <h1 class="display text-5xl font-bold text-gray-900 mt-2">
+                What needs doing
+            </h1>
+        </div>
+        <div class="text-right">
+
+            <h2 class="display text-5xl font-bold text-blue-600">
+                <%= files.length %>
+            </h2>
+
+            <p class="uppercase text-xs tracking-[4px] text-gray-500 mt-1">
+                <%= files.length === 1 ? "Entry" : "Entries" %>
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Form -->
+
+    <form action="/create" method="POST" class="mb-12">
+
+        <div class="grid md:grid-cols-[1fr_2fr_auto] gap-4">
+
+            <input
+                type="text"
+                name="title"
+                required
+                placeholder="Task title..."
+                class="field rounded-xl px-5 py-4 text-gray-800">
+
+            <textarea
+                name="details"
+                rows="2"
+                placeholder="Write task description..."
+                class="field rounded-xl px-5 py-4 text-gray-800 resize-none"></textarea>
+
+            <button
+                class="submit-btn rounded-xl px-8 py-4 font-semibold cursor-pointer">
+                Add Task
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- Cards -->
+
+    <% if(files.length > 0){ %>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <% files.forEach(function(val,index){ %>
+
+                <div class="task-card p-6">
+
+                    <p class="text-sm text-gray-400">
+                        <%= String(index+1).padStart(2,"0") %>
+                    </p>
+
+                    <h2 class="display text-2xl font-semibold text-gray-900 mt-3 break-all">
+                        <%= val %>
+                    </h2>
+
+                    <a
+                        href="/file/<%= val %>"
+                        class="read-more inline-block mt-6">
+                        Read More →
+                    </a>
+ <a
+                        href="/edit/<%= val %>"
+                        class="read-more inline-block mt-6">
+                        Edit
+                    </a>
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    <% } else { %>
+
+        <div class="bg-white rounded-2xl border border-dashed border-gray-300 p-20 text-center">
+
+            <h2 class="display text-3xl text-gray-800 mb-3">
+                No Tasks Yet
+            </h2>
+
+            <p class="text-gray-500">
+                Create your first task using the form above.
+            </p>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>
+```
