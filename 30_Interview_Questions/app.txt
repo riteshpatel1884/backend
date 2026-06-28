@@ -1,0 +1,77 @@
+1. Explain equality in JavaScript 
+
+- In JavaScript, the equality operator is used for equality comparison. It compares two 
+values and returns true if they are equal, and false otherwise. 
+- However, it performs type coercion, which means it converts the operands to the same 
+type before making the comparison.
+
+console.log(5 == '5');  true, because '5' is converted to a number before comparison
+console.log(5 == 5);    true, both values are of the same type and equal
+console.log(5 == 6);    false, the values are not equal
+
+
+2. Explain the difference between Objects. freeze() vs const
+
+- Object.freeze() is a method provided by JavaScript that freezes an object, making it 
+immutable. This means that after calling Object.freeze() on an object, We cannot add, 
+delete, or modify any of its properties.
+- Even attempts to modify the properties of a frozen object will fail silently in non-strict 
+mode and throw an error in strict mode.
+
+
+- const is a keyword in JavaScript used to declare constants. When We declare a variable using const, We cannot reassign it to a different value. However, this does not make the object itself immutable.
+- If the variable is an object, its properties can still be modified or reassigned, but We cannot assign a new object to the variable.
+- In other words, const ensures that the variable reference cannot change, but it does not ensure immutability of the object itself.                          
+
+
+3. What is NodeJS and how it works?
+- NodeJS is a JavaScript runtime environment that allows developers to run JavaScript code outside of a web browser. It uses the V8 JavaScript engine, which is the same engine used by Google Chrome, to execute JavaScript code on the server-side.
+
+- NodeJS works on an event-driven, non-blocking I/O model, enabling efficient and scalable server-side applications.
+
+- It uses asynchronous programming to handle multiple requests simultaneously, making it ideal for real-time web apps, APIs, and microservices.
+
+
+4. How do we manage packages in a NodeJS project?
+- Modules are the blocks of reusable code consisting of Javascript functions and objects which communicate with external applications based on functionality. 
+- A package is often confused with modules, but it is simply a collection of modules (libraries).
+
+
+5. How can we use async await in NodeJS?
+To use async await in NodeJS
+- Define an asynchronous function with the async keyword.
+- Use the await keyword within the function to pause execution until promises are resolved.
+- Handle errors using try/catch blocks.
+- Call the asynchronous function and use await to wait for its result.
+
+async function fun1(req, res){
+  let response = await request.get('http://localhost:3000');
+    if (response.err) console.log('error');
+    else console.log('fetched response');
+}
+
+
+
+6. What is NodeJS streams?
+- Streams are one of the fundamental concepts of NodeJS. Streams are a type of data-handling methods and are used to read or write input into output sequentially. - - Streams are used to handle reading/writing files or exchanging information in an efficient way.
+
+Accessing Streams:
+const fs = require("fs");
+
+const readStream = fs.createReadStream("source.txt");
+const writeStream = fs.createWriteStream("destination.txt");
+
+readStream.pipe(writeStream)
+  .on("error", console.log);
+
+writeStream.on("finish", () => 
+  console.log("Data successfully copied!")
+);
+
+
+7. Explain the concept of stub in NodeJS?
+
+8. How can we enhance the performance of NodeJS?
+- Clustering is the process through which we can use multiple cores of our central processing unit at the same time with the help of NodeJS, which helps to increase the performance of the software and also reduces its time load.
+
+https://www.geeksforgeeks.org/interview-prep backend-developer-interview-questions-and-answers/
