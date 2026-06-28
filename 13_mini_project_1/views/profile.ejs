@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    textarea {
+      outline: none;
+      resize: none;
+      transition: border-color 0.15s;
+    }
+    textarea:focus {
+      border-color: #2563eb !important;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+    }
+    textarea::placeholder { color: #9ca3af; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+
+  <main class="max-w-2xl mx-auto px-6 py-10">
+
+    <!-- Greeting -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Hello, <%= user.name %> 👋</h1>
+     <a
+        href="/logout"
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-red-600 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>
+        Logout
+      </a>
+    </div>
+
+    <!-- New Post -->
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 mb-10">
+      <form action="/post" method="POST">
+        <textarea
+          name="content"
+          rows="4"
+          placeholder="What's on your mind?"
+          class="w-full text-sm text-gray-900 border border-gray-200 rounded-xl px-4 py-3 bg-gray-50"
+        ></textarea>
+        <div class="flex justify-end mt-3">
+          <button
+            type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors"
+          >
+            Post
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Posts -->
+    <div>
+      <h2 class="text-base font-semibold text-gray-900 mb-4">Your Posts</h2>
+
+      <% if(user.posts && user.posts.length > 0){ %>
+
+        <% user.posts.forEach(function(post){ %>
+
+          <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-5 mb-4">
+            <!-- Author row -->
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-xs">
+                <%= user.name.charAt(0).toUpperCase() %>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-gray-900"><%= user.name %></p>
+                <p class="text-xs text-gray-400">@<%= user.username %></p>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <p class="text-sm text-gray-700 leading-relaxed"><%= post.content %></p>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-100 mt-4 pt-3 flex items-center gap-4">
+              <a
+                href="/like/<%= post._id %>"
+                class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-red-500 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <small><%= post.likes.length %> Likes</small>
+              </a>
+              <a
+                href="/edit/<%= post._id %>"
+                class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </a>
+              <a
+                href="/delete/<%= post._id %>"
+                class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-red-600 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Delete
+              </a>
+            </div>
+          </div>
+
+        <% }) %>
+
+      <% } else { %>
+
+        <div class="bg-white border border-dashed border-gray-200 rounded-2xl p-10 text-center">
+          
+          <p class="text-sm font-medium text-gray-600">No posts yet</p>
+         
+        </div>
+
+      <% } %>
+    </div>
+
+  </main>
+</body>
+</html>
