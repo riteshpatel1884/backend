@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Post</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    textarea {
+      outline: none;
+      resize: none;
+      transition: border-color 0.15s;
+    }
+    textarea:focus {
+      border-color: #2563eb !important;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+
+  <main class="max-w-2xl mx-auto px-6 py-10">
+
+    <!-- Back link -->
+    <a href="/profile" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      Back to profile
+    </a>
+
+    <!-- Page heading -->
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-gray-900">Edit Post</h1>
+    </div>
+
+    <!-- Edit card -->
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+
+      <!-- Author row -->
+      <div class="flex items-center gap-2 mb-5 pb-4 border-b border-gray-100">
+        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-xs">
+          <%= post.user.name.charAt(0).toUpperCase() %>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-900"><%= post.user.name %></p>
+          <p class="text-xs text-gray-400">@<%= post.user.username %></p>
+        </div>
+      </div>
+
+      <!-- Form — note: update route uses GET and reads req.body.content -->
+      <form action="/update/<%= post._id %>" method="GET">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+        <textarea
+          name="content"
+          rows="5"
+          class="w-full text-sm text-gray-900 border border-gray-200 rounded-xl px-4 py-3 bg-gray-50"
+          placeholder="What's on your mind?"
+        ><%= post.content %></textarea>
+
+        <div class="flex items-center justify-between mt-4">
+          <a
+            href="/profile"
+            class="text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            Cancel
+          </a>
+          <button
+            type="submit"
+            class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+
+    </div>
+
+  </main>
+</body>
+</html>
