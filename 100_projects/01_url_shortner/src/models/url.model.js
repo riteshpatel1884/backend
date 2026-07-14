@@ -1,19 +1,26 @@
 const mongoose = require("mongoose")
 
 const urlSchema = new mongoose.Schema({
-    shortId:{
+    shortId: {
         type: String,
         required: true,
-        unique: true // becoz we dont want ki do logo ki same  shortend url bane
+        unique: true
     },
-    redirectUrl:{
+    redirectUrl: {
         type: String,
         required: true,
     },
-    visitHistory:[{timestamp:{type: Number}}]
-}, { timestamps: true}
-)
-
+    visitHistory: [{
+        timestamp: { type: Number },
+        ipHash: { type: String },       // hashed IP -> used for unique visitor count
+        browser: { type: String },      // ua-parser-js → browser/OS/device from user-agent headerz
+        os: { type: String },
+        device: { type: String },      // mobile / desktop / tablet
+        country: { type: String },     // geoip-lite → country/city from IP, fully offline (bundles MaxMind-lite data). 
+        city: { type: String },
+        referrer: { type: String },
+    }]
+}, { timestamps: true })
 
 const URL = mongoose.model('url', urlSchema)
 
