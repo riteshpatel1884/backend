@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>URL Shortener</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #fff;
+    color: #000;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card {
+    padding: 40px;
+    width: 100%;
+    max-width: 480px;
+  }
+  h1 {
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  form {
+    display: flex;
+    gap: 12px;
+  }
+  input[type="text"] {
+    flex: 1;
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid #000;
+    color: #000;
+    padding: 12px 4px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+  }
+  input[type="text"]::placeholder { color: #999; }
+  button {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  button:hover { background: #333; }
+  .result {
+    margin-top: 24px;
+    display: none;
+    word-break: break-all;
+  }
+  .result.show { display: block; }
+  .result a {
+    color: #000;
+    text-decoration: underline;
+  }
+  .error {
+    margin-top: 16px;
+    color: #000;
+    display: none;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .error.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Url Shortener</h1>
+  <form id="shortenForm">
+    <input type="text" id="urlInput" placeholder="https://example.com/url" required>
+    <button type="submit">Shorten</button>
+  </form>
+
+  <div class="error" id="errorBox"></div>
+
+  <div class="result" id="resultBox">
+    <div>Original URL:</div>
+    <a id="originalLink" href="#" target="_blank"></a>
+
+    <div style="margin-top: 12px;">Short URL:</div>
+    <a id="shortLink" href="#" target="_blank"></a>
+</div>
+</div>
+
+<script>
+  const form = document.getElementById("shortenForm");
+  const resultBox = document.getElementById("resultBox");
+  const errorBox = document.getElementById("errorBox");
+  const shortLink = document.getElementById("shortLink");
+  const originalLink = document.getElementById("originalLink");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorBox.classList.remove("show");
+    resultBox.classList.remove("show");
+
+    const url = document.getElementById("urlInput").value;
+
+    try {
+      const res = await fetch("/url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        errorBox.textContent = data.error || "Something went wrong";
+        errorBox.classList.add("show");
+        return;
+      }
+
+      const fullShortUrl = window.location.origin + "/" + data.id;
+
+      originalLink.href = data.originalUrl;
+      originalLink.textContent = data.originalUrl;
+
+      shortLink.href = fullShortUrl;
+      shortLink.textContent = fullShortUrl;
+
+      resultBox.classList.add("show");
+      document.getElementById("urlInput").value = "";
+    } catch (err) {
+      errorBox.textContent = "Server error, try again";
+      errorBox.classList.add("show");
+    }
+  });
+</script>
+
+</body>
+</html>

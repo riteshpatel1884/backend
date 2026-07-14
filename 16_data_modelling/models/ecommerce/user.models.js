@@ -1,23 +1,22 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    usermname: {
+    username: {
         type: String,
         required: true,
         unique: true,
-        lowercase: true,  // its a good practice to store emails in lowercase to avoid duplicates
+        lowercase: true,
     },
-    
     email: {
         type: String,
         required: true,
         unique: true,
-        lowercase: true,  
+        lowercase: true,
     },
     password: {
         type: String,
         required: true,
     },
-}, {timestamps: true});
+}, { timestamps: true });
 
-export const User = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+    a.button { display: inline-block; margin-top: 1rem; padding: .85rem 1.2rem; background: #2563eb; color: white; text-decoration: none; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Welcome, <%= user.username %></h1>
+    <p><strong>Email:</strong> <%= user.email %></p>
+    <p><strong>Joined:</strong> <%= new Date(user.createdAt).toLocaleDateString() %></p>
+    <a class="button" href="/logout">Sign Out</a>
+  </div>
+</body>
+</html>
