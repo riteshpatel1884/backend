@@ -2,7 +2,6 @@ const {nanoid} = require("nanoid")
 const URL = require("../models/url.model.js")
 
 
-
 async function newShortUrl(req, res) {
     const body = req.body;
     if (!body || !body.url) 

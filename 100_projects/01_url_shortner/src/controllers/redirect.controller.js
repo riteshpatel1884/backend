@@ -4,7 +4,6 @@ const geoip = require("geoip-lite");
 const URL = require("../models/url.model.js");
 
 
-
 async function handleRedirect(req, res) {
     const shortId = req.params.shortId;
 

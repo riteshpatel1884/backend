@@ -3,16 +3,17 @@ const fs = require('fs');
 
 // Write file means creating a file
 // fs.writeFile(file,data[],options] , callback )
+
 // fs.writeFile("ritu.txt", "hello ritu", function(err){
 //     if(err) console.log(err);
-//     else console.log("done");
+//         else console.log("done");
 // } ) // or write file name in single quote 
 
 
 // Appending content
 // fs.appendFile("ritu.txt", "how are you", function(err){
 //     if(err) console.log(err);
-//         else console.log("appended");
+//           else console.log("appended");
 // })
 
 
@@ -30,7 +31,7 @@ const fs = require('fs');
 // })
 
 
-// // coping to a folder file whose folder does not exist
+// // copying to a folder file whose folder does not exist
 // fs.copyFile("ritu.txt", "./copied/copied.txt", function(err) {
 //     if(err) {
 //         console.log(err)

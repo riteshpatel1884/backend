@@ -3,13 +3,12 @@ const app = express();
 const userModel = require('./userModel')
 
 
-
 app.get("/", function(req,res){
     res.send("hi");
 })
 
 // app.get("/create", function(req,res){
-//     userModel.create({    It is a synchronus code so it will reun later 
+//     userModel.create({    It is a synchronus code so it will re-run later 
 //         name: "Ritesh",
 //         email: "riteshpatel1884@gmail.com",
 //         username: "riteshpatel1884"

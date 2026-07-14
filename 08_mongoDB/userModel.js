@@ -3,7 +3,7 @@ dns.setServers(['8.8.8.8', '8.8.4.4']);
 const mongoose = require('mongoose');
 
 mongoose.connect("mongodb+srv://ritesh20047_db_user:hhtNRHhyoApmSQdu@cluster0.yrge0ja.mongodb.net/myDatabase")
-  .then(() => console.log("Connected to MongoDB Atlas"))
+  .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
 
 const userSchema = new mongoose.Schema({
