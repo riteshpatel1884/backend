@@ -1,41 +1,61 @@
-const crypto = require("crypto");
-const { UAParser } = require("ua-parser-js");
-const geoip = require("geoip-lite");
-const URL = require("../models/url");
+const {nanoid} = require("nanoid")
+const URL = require("../models/url.model.js")
 
-async function handleRedirect(req, res) {
-    const shortId = req.params.shortId;
 
-    const ip = (req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress || "unknown").trim();
-    const ipHash = crypto.createHash("sha256").update(ip).digest("hex");
 
-    const parser = new UAParser(req.headers["user-agent"]);
-    const { browser, os, device } = parser.getResult();
+async function newShortUrl(req, res) {
+    const body = req.body;
+    if (!body || !body.url) 
+        return res.status(400).json({ error: 'url is required' });
+    
+    const shortID = nanoid(5);
 
-    const geo = geoip.lookup(ip); // null if local/unknown IP
+    await URL.create({
+        shortId: shortID,
+        redirectUrl: body.url,
+        // no need to pass visitHistory — schema default is already []
+    });
 
-    const entry = await URL.findOneAndUpdate(
-        { shortId },
-        {
-            $push: {
-                visitHistory: {
-                    timestamp: Date.now(),
-                    ipHash,
-                    browser: browser.name || "Unknown",
-                    os: os.name || "Unknown",
-                    device: device.type || "desktop",
-                    country: geo?.country || "Unknown",
-                    city: geo?.city || "Unknown",
-                    referrer: req.headers["referer"] || "direct",
-                }
-            }
-        },
-        { new: true }
-    );
-
-    if (!entry) return res.status(404).send("Short URL not found");
-
-    res.redirect(entry.redirectUrl);
+    return res.json({ id: shortID, originalUrl: body.url });
 }
 
-module.exports = { handleRedirect };
+
+async function getAllUrls(req, res) {
+    const urls = await URL.find({}, { shortId: 1, redirectUrl: 1, visitHistory: 1, createdAt: 1 })
+        .sort({ createdAt: -1 });
+
+    const summary = urls.map(u => ({
+        shortId: u.shortId,
+        redirectUrl: u.redirectUrl,
+        totalClicks: u.visitHistory.length,
+        createdAt: u.createdAt,
+    }));
+
+    res.json(summary);
+}
+
+async function getSummary(req, res) {
+    const urls = await URL.find({}, { visitHistory: 1 });
+
+    const totalUrls = urls.length;
+
+    let totalClicks = 0;
+    const allIpHashes = new Set();
+
+    urls.forEach(u => {
+        totalClicks += u.visitHistory.length;
+        u.visitHistory.forEach(v => {
+            if (v.ipHash) allIpHashes.add(v.ipHash);
+        });
+    });
+
+    res.json({
+        totalUrls,
+        totalClicks,
+        totalUniqueVisitors: allIpHashes.size,
+    });
+}
+
+module.exports = { newShortUrl, getAllUrls, getSummary };
+
+

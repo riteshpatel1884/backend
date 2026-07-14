@@ -10,20 +10,40 @@
     color: #000;
     font-family: 'Courier New', monospace;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .card {
     padding: 40px;
-    width: 100%;
-    max-width: 480px;
+  }
+  .layout {
+    display: flex;
+    gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: flex-start;
+  }
+  .left {
+    flex: 0 0 380px;
+  }
+  .right {
+    flex: 1;
+    min-width: 0;
+    border-left: 1px solid #000;
+    padding-left: 40px;
   }
   h1 {
     font-size: 22px;
     letter-spacing: 1px;
     margin-bottom: 24px;
     text-transform: uppercase;
+  }
+  h2 {
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-divider {
+    margin-top: 40px;
+    border-top: 1px solid #000;
+    padding-top: 24px;
   }
   form {
     display: flex;
@@ -39,6 +59,7 @@
     font-family: inherit;
     font-size: 14px;
     outline: none;
+    min-width: 0;
   }
   input[type="text"]::placeholder { color: #999; }
   button {
@@ -51,6 +72,7 @@
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
+    flex-shrink: 0;
   }
   button:hover { background: #333; }
   .result {
@@ -71,26 +93,172 @@
     font-weight: bold;
   }
   .error.show { display: block; }
+
+  /* summary */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .stat-box {
+    border: 1px solid #000;
+    padding: 12px;
+    background: #fff;
+  }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+  }
+  .stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 4px;
+  }
+  .span-2 { grid-column: span 2; }
+
+  /* history list */
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #000;
+  }
+  .history-item {
+    padding: 14px 4px;
+    border-bottom: 1px solid #000;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .history-item:hover { background: #f5f5f5; }
+  .history-left {
+    min-width: 0;
+  }
+  .history-short {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .history-original {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 320px;
+  }
+  .history-clicks {
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .history-empty {
+    font-size: 13px;
+    color: #999;
+    padding: 14px 4px;
+  }
+
+  /* inline analytics panel under a clicked item */
+  .stats-panel {
+    display: none;
+    padding: 16px 4px 20px;
+    border-bottom: 1px solid #000;
+    background: #fafafa;
+  }
+  .stats-panel.show { display: block; }
+  .breakdown {
+    margin-top: 16px;
+  }
+  .breakdown-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .bar-name {
+    width: 90px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar-track {
+    flex: 1;
+    background: #eee;
+    height: 14px;
+    position: relative;
+  }
+  .bar-fill {
+    background: #000;
+    height: 100%;
+  }
+  .bar-count {
+    width: 30px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 800px) {
+    .layout { flex-direction: column; }
+    .left { flex: none; width: 100%; }
+    .right { border-left: none; border-top: 1px solid #000; padding-left: 0; padding-top: 30px; width: 100%; }
+  }
 </style>
 </head>
 <body>
 
-<div class="card">
-  <h1>Url Shortener</h1>
-  <form id="shortenForm">
-    <input type="text" id="urlInput" placeholder="https://example.com/url" required>
-    <button type="submit">Shorten</button>
-  </form>
+<div class="layout">
 
-  <div class="error" id="errorBox"></div>
+  <div class="left">
+    <h1>Url Shortener</h1>
+    <form id="shortenForm">
+      <input type="text" id="urlInput" placeholder="https://example.com/url" required>
+      <button type="submit">Shorten</button>
+    </form>
 
-  <div class="result" id="resultBox">
-    <div>Original URL:</div>
-    <a id="originalLink" href="#" target="_blank"></a>
+    <div class="error" id="errorBox"></div>
 
-    <div style="margin-top: 12px;">Short URL:</div>
-    <a id="shortLink" href="#" target="_blank"></a>
-</div>
+    <div class="result" id="resultBox">
+      <div>Original URL:</div>
+      <a id="originalLink" href="#" target="_blank"></a>
+
+      <div style="margin-top: 12px;">Short URL:</div>
+      <a id="shortLink" href="#" target="_blank"></a>
+    </div>
+
+    <h2 class="section-divider">Summary</h2>
+    <div class="summary-grid">
+      <div class="stat-box">
+        <div class="stat-label">Total URLs</div>
+        <div class="stat-value" id="sumUrls">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Total Clicks</div>
+        <div class="stat-value" id="sumClicks">0</div>
+      </div>
+      <div class="stat-box span-2">
+        <div class="stat-label">Total Unique Visitors</div>
+        <div class="stat-value" id="sumVisitors">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <h2>History</h2>
+    <div class="history-list" id="historyList">
+      <div class="history-empty">Loading...</div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -99,6 +267,7 @@
   const errorBox = document.getElementById("errorBox");
   const shortLink = document.getElementById("shortLink");
   const originalLink = document.getElementById("originalLink");
+  const historyList = document.getElementById("historyList");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -132,11 +301,147 @@
 
       resultBox.classList.add("show");
       document.getElementById("urlInput").value = "";
+
+      loadHistory();
+      loadSummary();
     } catch (err) {
       errorBox.textContent = "Server error, try again";
       errorBox.classList.add("show");
     }
   });
+
+  // ---------- Summary ----------
+  async function loadSummary() {
+    try {
+      const res = await fetch("/url/summary");
+      const data = await res.json();
+      if (!res.ok) return;
+
+      document.getElementById("sumUrls").textContent = data.totalUrls;
+      document.getElementById("sumClicks").textContent = data.totalClicks;
+      document.getElementById("sumVisitors").textContent = data.totalUniqueVisitors;
+    } catch (err) {
+      // fail silently
+    }
+  }
+
+  // ---------- History list ----------
+  async function loadHistory() {
+    try {
+      const res = await fetch("/url/history");
+      const urls = await res.json();
+
+      if (!res.ok) {
+        historyList.innerHTML = '<div class="history-empty">Could not load history</div>';
+        return;
+      }
+
+      if (urls.length === 0) {
+        historyList.innerHTML = '<div class="history-empty">No links yet</div>';
+        return;
+      }
+
+      historyList.innerHTML = "";
+
+      urls.forEach(u => {
+        const row = document.createElement("div");
+        row.className = "history-item";
+        row.innerHTML = `
+          <div class="history-left">
+            <div class="history-short">/${u.shortId}</div>
+            <div class="history-original">${u.redirectUrl}</div>
+          </div>
+          <div class="history-clicks">${u.totalClicks} clicks</div>
+        `;
+
+        const panel = document.createElement("div");
+        panel.className = "stats-panel";
+        panel.id = `panel-${u.shortId}`;
+
+        row.addEventListener("click", () => toggleStats(u.shortId, panel));
+
+        historyList.appendChild(row);
+        historyList.appendChild(panel);
+      });
+    } catch (err) {
+      historyList.innerHTML = '<div class="history-empty">Server error loading history</div>';
+    }
+  }
+
+  function renderBars(container, items) {
+    container.innerHTML = "";
+    if (!items || items.length === 0) {
+      container.innerHTML = '<div style="font-size:12px;color:#999;">No data</div>';
+      return;
+    }
+    const max = Math.max(...items.map(i => i.count));
+    items.forEach(item => {
+      const pct = (item.count / max) * 100;
+      const row = document.createElement("div");
+      row.className = "bar-row";
+      row.innerHTML = `
+        <div class="bar-name" title="${item.name}">${item.name}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <div class="bar-count">${item.count}</div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  async function toggleStats(shortId, panel) {
+    const alreadyOpen = panel.classList.contains("show");
+
+    document.querySelectorAll(".stats-panel.show").forEach(p => p.classList.remove("show"));
+
+    if (alreadyOpen) return;
+
+    panel.innerHTML = '<div style="font-size:13px;color:#999;">Loading...</div>';
+    panel.classList.add("show");
+
+    try {
+      const res = await fetch(`/url/analytics/${shortId}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        panel.innerHTML = `<div style="font-size:13px;">${data.error || "Could not load stats"}</div>`;
+        return;
+      }
+
+      panel.innerHTML = `
+        <div class="summary-grid">
+          <div class="stat-box">
+            <div class="stat-label">Total Clicks</div>
+            <div class="stat-value">${data.totalClicks}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Unique Visitors</div>
+            <div class="stat-value">${data.uniqueVisitors}</div>
+          </div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Browser</div>
+          <div id="b-${shortId}"></div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Device</div>
+          <div id="d-${shortId}"></div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-title">Country</div>
+          <div id="c-${shortId}"></div>
+        </div>
+      `;
+
+      renderBars(document.getElementById(`b-${shortId}`), data.browsers);
+      renderBars(document.getElementById(`d-${shortId}`), data.devices);
+      renderBars(document.getElementById(`c-${shortId}`), data.countries);
+    } catch (err) {
+      panel.innerHTML = '<div style="font-size:13px;">Server error</div>';
+    }
+  }
+
+  loadHistory();
+  loadSummary();
 </script>
 
 </body>
