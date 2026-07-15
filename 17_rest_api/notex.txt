@@ -1,0 +1,133 @@
+6 REST constraints/ Rules
+
+1. Client-Server Separation
+- The client (frontend) and server (backend) should be independent.
+- Client handles the UI.
+- Server handles business logic and the database.
+
+2. Stateless
+- Every request must contain all the information needed to process it.
+- The server does not remember previous requests.
+
+3. Cacheable
+- Responses should indicate whether they can be cached.
+- This improves performance by avoiding unnecessary requests.
+
+4. Uniform Interface
+- This is one of the most important REST principles.
+a) Use resources (nouns), not actions (verbs)
+
+✅ Good
+GET /users
+POST /users
+DELETE /users/5
+
+❌ Bad
+GET /getUsers
+POST /createUser
+POST /deleteUser
+
+The HTTP method already describes the action.
+
+b) Use standard HTTP methods
+Method	   Purpose
+GET	       Read
+POST       Create
+PUT	       Replace
+PATCH	   Partial update
+DELETE	   Delete
+
+c) Return standard HTTP status codes
+Examples:
+
+200 OK
+201 Created
+204 No Content
+400 Bad Request
+401 Unauthorized
+404 Not Found
+500 Internal Server Error
+
+d) Use JSON (commonly)
+
+Request:
+{
+  "name": "Ritesh"
+}
+
+Response:
+{
+  "id": 1,
+  "name": "Ritesh"
+}
+
+
+5. Layered System
+- The client doesn't need to know how many layers exist between it and the server.
+
+Example:
+Client
+   │
+   ▼
+Load Balancer
+   │
+   ▼
+API Gateway
+   │
+   ▼
+Express Server
+   │
+   ▼
+MongoDB
+
+The client simply sends a request to the API.
+
+
+
+
+
+
+Additional RESTful Best Practices
+1. Use meaningful URLs
+
+✅ Good
+
+/users
+/users/5
+/users/5/orders
+
+❌ Bad
+
+/getUserById
+/showOrders
+
+
+2. Use plural nouns
+
+✅ Good
+
+/users
+/products
+/orders
+
+❌ Bad
+
+/user
+/product
+
+
+
+3. Use query parameters for filtering
+GET /users?country=India
+GET /products?category=laptop
+GET /posts?page=2&limit=10
+
+
+4. Version your API
+/api/v1/users
+/api/v2/users
+
+This lets you introduce changes without breaking existing clients.
+
+
+

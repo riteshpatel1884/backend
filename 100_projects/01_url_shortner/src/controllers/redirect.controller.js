@@ -4,6 +4,7 @@ const geoip = require("geoip-lite");
 const URL = require("../models/url.model.js");
 
 
+
 async function handleRedirect(req, res) {
     const shortId = req.params.shortId;
 
@@ -12,7 +13,7 @@ async function handleRedirect(req, res) {
 
     // Local dev fallback — remove or gate behind NODE_ENV before deploying
     if (ip === "127.0.0.1" || ip === "::1" || ip.startsWith("192.168.")) {
-        ip = "8.8.8.8"; // fake public IP just for local testing...
+        ip = "8.8.8.8"; // fake public IP just for local testing
     }
 
     const ipHash = crypto.createHash("sha256").update(ip).digest("hex");
